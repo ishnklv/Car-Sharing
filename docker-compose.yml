@@ -1,0 +1,33 @@
+version: '3'
+services:
+  web:
+    container_name: "car-sharing"
+    image: node
+    command: npm run start
+    ports:
+      - "5500:5500"
+    depends_on:
+      - db
+    working_dir: /src
+    environment:
+      PORT: 5500
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_DB: car_sharing
+      POSTGRES_PASSWORD: root1234
+    volumes:
+      - ./:/src
+
+  db:
+    image: postgres
+    container_name: "db"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root1234
+    volumes:
+      - ~/dbdata:/var/lib/postgresql/data
+
